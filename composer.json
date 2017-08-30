@@ -15,6 +15,11 @@
             "name": "oriceon",
             "email": "oriceon@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Nati V",
+            "email": "nati@webt.co.il",
+            "role": "Developer"
         }
     ],
     "require": {
