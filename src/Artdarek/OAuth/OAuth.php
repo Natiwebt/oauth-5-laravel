@@ -69,24 +69,38 @@ class OAuth {
      */
     public function setConfig($service)
     {
+        //get config from env for lumen
+
+        $this->_storageClass  = env("OAUTH_STORAGE_CLASS", $this->_storageClass);
+        $this->_client_id     = env("OAUTH_{$service}_CLIENT_ID", null);
+        $this->_client_secret = env("OAUTH_{$service}_APP_SECRET", null);
+        $this->_scope         = explode('|', env("OAUTH_{$service}_SCOPE", ''));
+
+        if ($this->_client_id === null || $this->_client_secret === null)
+        {
+            throw new Exception("App credentials didn't provided", 1);
+        }
+        //Original code
         // if config/oauth-4-laravel.php exists use this one
-        if (Config::get('oauth-5-laravel.consumers') != null)
-        {
 
-            $this->_storageClass  = Config::get('oauth-5-laravel.storage', $this->_storageClass);
-            $this->_client_id     = Config::get("oauth-5-laravel.consumers.$service.client_id");
-            $this->_client_secret = Config::get("oauth-5-laravel.consumers.$service.client_secret");
-            $this->_scope         = Config::get("oauth-5-laravel.consumers.$service.scope", []);
 
-            // esle try to find config in packages configs
-        }
-        else
-        {
-            $this->_storageClass  = Config::get('oauth-5-laravel::storage', $this->_storageClass);
-            $this->_client_id     = Config::get("oauth-5-laravel::consumers.$service.client_id");
-            $this->_client_secret = Config::get("oauth-5-laravel::consumers.$service.client_secret");
-            $this->_scope         = Config::get("oauth-5-laravel::consumers.$service.scope", []);
-        }
+        // if (Config::get('oauth-5-laravel.consumers') != null)
+        // {
+
+        //     $this->_storageClass  = Config::get('oauth-5-laravel.storage', $this->_storageClass);
+        //     $this->_client_id     = Config::get("oauth-5-laravel.consumers.$service.client_id");
+        //     $this->_client_secret = Config::get("oauth-5-laravel.consumers.$service.client_secret");
+        //     $this->_scope         = Config::get("oauth-5-laravel.consumers.$service.scope", []);
+
+        //     // esle try to find config in packages configs
+        // }
+        // else
+        // {
+        //     $this->_storageClass  = Config::get('oauth-5-laravel::storage', $this->_storageClass);
+        //     $this->_client_id     = Config::get("oauth-5-laravel::consumers.$service.client_id");
+        //     $this->_client_secret = Config::get("oauth-5-laravel::consumers.$service.client_secret");
+        //     $this->_scope         = Config::get("oauth-5-laravel::consumers.$service.scope", []);
+        // }
     }
 
     /**
